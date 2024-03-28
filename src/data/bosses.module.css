@@ -1,0 +1,71 @@
+.levitate {
+  width: 100px;
+  height: 100px;
+  animation: levitate 2s ease-in-out infinite;
+}
+
+@keyframes levitate {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-20px);
+  }
+}
+
+
+.circlePath {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.floating {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 75px;
+  height: 75px;
+  transform-origin: 100px 100px;
+  animation: floatInCircle 4s linear infinite;
+}
+
+@keyframes floatInCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+  /* 50% {
+    transform: rotate(180deg) scale(.5);
+  } */
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*******************************************/
+
+/* BallAnimation.css */
+.zoomContainer {
+  position: relative;
+  width: 350px;
+  height: 50px;
+}
+
+.zoom {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  animation: zoom 2.5s infinite;
+}
+
+@keyframes zoom {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(350px);
+  }
+}
+
+
+/*******************************************/
