@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import api from '../../api/'
 import { getRolls, getModifiers, weightedRandom, getRandomElement } from './engine'
+import { SWAG_TIERS } from '../../data/_enums'
 
 const State = createContext()
 
@@ -36,7 +37,7 @@ const Provider = ({ children }) => {
 
     return swagOptions
   }
-  const triggerSwagRoll = (boss) => {
+  const triggerSwagRoll = (boss, individualWeight) => {
     if (boss.custom && boss.custom.handle()) {
       setBoss(boss)
       setStage(stages.BOSS_CUSTOM)
@@ -56,7 +57,9 @@ const Provider = ({ children }) => {
     const rollCount = getRolls(modifiers)
     const swagItems = []
     for (let i = 0; i < rollCount; i++) {
-      const rarity = weightedRandom(boss.swag.chances)
+      const amendedChance = amendChances(boss.swag.chances, individualWeight)
+      console.log({ amendChances, individualWeight })
+      const rarity = weightedRandom(amendedChance)
       const options = filterByRarity([rarity], swagOptions)
       swagItems.push(getRandomElement(options))
     }
@@ -64,6 +67,14 @@ const Provider = ({ children }) => {
     setBoss(boss)
     setSwagRolls(swagItems)
     setStage(stages.SWAG_MENU)
+  }
+
+  const amendChances = (chances, modifier = 0) => {
+    return {
+      ...chances,
+      [SWAG_TIERS.rare]: (chances[SWAG_TIERS.rare] || 1) + modifier,
+      [SWAG_TIERS.unique]: (chances[SWAG_TIERS.unique] || 1) + modifier
+    }
   }
 
   const reset = () => {

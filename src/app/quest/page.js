@@ -19,8 +19,11 @@ const Main = () => {
   }, [stage])
 
   const onBossSelect = (boss) => {
+    const params = new URLSearchParams(window.location.search)
+    const quota = params.get('quota')
+    const individualWeight = Number(quota || 0)
     // maybe run engine
-    triggerSwagRoll(boss)
+    triggerSwagRoll(boss, individualWeight)
   }
 
   return (
